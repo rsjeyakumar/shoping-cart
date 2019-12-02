@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommunicationService } from '../services/communication.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private comser: CommunicationService) { }
 
   ngOnInit() {
+    this.comser.getMessage().subscribe(
+      (res) => {
+        console.log('receiving from header component');
+        console.log(res);
+      }
+    );
   }
 
 }

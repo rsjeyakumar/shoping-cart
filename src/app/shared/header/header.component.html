@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow ">
+<nav class="navbar navbar-expand-lg d-none" [ngClass]="{'bg-white shadow d-flex': suserDetails}">
     <a class="navbar-brand" href="#">My App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,10 +16,23 @@
                         class="rounded-circle alerts"><span class="numberofalerts">2</span></span>Alerts</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="fa fa-user-circle fa-2" aria-hidden="true"></i>Profile</a>
+                <a class="nav-link" href="javascript:void(0)" (click)="op.toggle($event)"> <i
+                        class="fa fa-user-circle fa-2" aria-hidden="true"></i>Profile</a>
             </li>
 
         </ul>
 
     </div>
+
+    <p-overlayPanel #op>
+
+        <a class="dropdown-item" href="javascript:void()">You Signed in as</a>
+        <a class="dropdown-item" href="javascript:void()"><b>{{suserDetails?.username}}</b></a>
+
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="javascript:void(0)" (click)="logOut()">LogOut</a>
+
+    </p-overlayPanel>
+
+
 </nav>

@@ -14,8 +14,7 @@
                                 </div>
                                 <div class="col-12 col-lg-6 p-5">
                                     <form class="form" [formGroup]="loginForm" (ngSubmit)="loginSubmit()"
-                                        *ngIf="toggleLoginReg" role="form" autocomplete="off" id="formLogin"
-                                        novalidate="" method="POST">
+                                        *ngIf="toggleLoginReg" role="form" autocomplete="off" id="formLogin">
                                         <h2>Login</h2>
                                         <p> <i id="emailHelp" *ngIf="loginvalidation"
                                                 class="form-text text-danger">Enter valid user name and
@@ -47,7 +46,9 @@
                                         </div>
                                         <div class="form-group clearfix">
                                             <button [disabled]="loginForm.invalid"
-                                                class="btn btn-primary btn-lg float-right" id="btnLogin">Login</button>
+                                                class="btn btn-primary btn-lg float-right" id="btnLogin">Login <i
+                                                    this.loginSpin=false; class="fa fa-refresh fa-spin"
+                                                    *ngIf="loginSpin"></i></button>
                                         </div>
                                         <div class="form-group clearfix">
                                             <p class="btn register"> <i>Dont have an account?
@@ -98,8 +99,9 @@
                                         </div>
                                         <div class="form-group clearfix">
                                             <button [disabled]="registerForm.invalid"
-                                                class="btn btn-primary btn-lg float-right"
-                                                id="btnLogin">Register</button>
+                                                class="btn btn-primary btn-lg float-right" id="btnLogin">Register <i
+                                                    class="fa fa-refresh fa-spin" *ngIf="registerSpin"></i></button>
+
                                         </div>
 
                                     </form>

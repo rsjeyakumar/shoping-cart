@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CommunicationService } from '../services/communication.service';
+import { Router } from '@angular/router';
+import { User } from '../../models/app.models';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +9,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+  subjectData: object;
+  suserDetails: User;
+  constructor(private comser: CommunicationService, private router: Router) { }
 
   ngOnInit() {
+    this.headerReference();
+    this.streamData();
+  }
+  streamData() {
+    this.comser.getMessage().subscribe(
+      (res) => {
+        debugger;
+        console.log('receiving from header component');
+        console.log(res);
+        this.subjectData = res;
+        this.headerReference();
+      }
+    );
+  }
+  headerReference() {
+    this.suserDetails = JSON.parse(sessionStorage.getItem('user'));
+  }
+  logOut() {
+    sessionStorage.clear();
+    this.headerReference();
+    this.router.navigate(['']);
   }
 
+
 }
+

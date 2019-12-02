@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { HttpService } from '../../shared/services/http.service';
+import { CommunicationService } from '../../shared/services/communication.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   registerForm: FormGroup;
   loginvalidation = false;
-  constructor(private http: HttpService, private router: Router) { }
+  loginSpin: boolean;
+  registerSpin: boolean;
+  constructor(private http: HttpService, private router: Router, private passdata: CommunicationService) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -26,6 +29,14 @@ export class LoginComponent implements OnInit {
       password: new FormControl(null, [Validators.required]),
       emailid: new FormControl(null, [Validators.required, Validators.email])
     });
+    const usesession = sessionStorage.getItem('user');
+    if (usesession) {
+
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['']);
+    }
+
   }
 
   toggleForm() {
@@ -35,13 +46,18 @@ export class LoginComponent implements OnInit {
   loginSubmit() {
     const queryparams = '?username=' + this.loginForm.value.username + '&password=' + this.loginForm.value.password;
     const apiEndpointUrl = this.http.apiUrl + this.http.userDetails + queryparams;
-    console.log(this.loginForm);
+    this.loginSpin = true;
     this.http.readData(apiEndpointUrl).subscribe(
       (res: object[]) => {
+        this.loginSpin = false;
         if (res.length === 1) {
+          const data = {
+            userDetails: true
+          };
           sessionStorage.clear();
           this.loginvalidation = false;
           sessionStorage.setItem('user', JSON.stringify(res[0]));
+          this.passdata.sendMessage(data);
           this.router.navigate(['/home']);
         } else {
           sessionStorage.clear();
@@ -52,9 +68,11 @@ export class LoginComponent implements OnInit {
   }
 
   registerFormSubmit() {
+    this.registerSpin = true;
     const apiEndpointUrl = this.http.apiUrl + this.http.userDetails;
     this.http.createData(apiEndpointUrl, this.registerForm.value).subscribe(
       (res) => {
+        this.registerSpin = false;
         console.log(res);
       }
     );

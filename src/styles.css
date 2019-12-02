@@ -59,7 +59,9 @@ body a {
 body .fa {
   color: #f60;
 }
-
+body button .fa {
+  color: #fff;
+}
 .alerts {
   border: 2px solid #f60;
   background: #f60;
